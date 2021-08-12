@@ -182,6 +182,7 @@ export default {
 <style>
 .Plot-grid {
   display: flex;
+  align-items: start;
 }
 .Plot-data {
   text-align: left;
@@ -192,5 +193,6 @@ export default {
 }
 .Plot-container {
   position: relative;
+  align-self: start;
 }
 </style>
