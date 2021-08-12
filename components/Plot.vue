@@ -86,7 +86,7 @@
       </div>
     </div>
     <div>
-      <button @click="() => (points = [])">
+      <button @click="clearPoints">
         Clear points
       </button>
     </div>
@@ -116,9 +116,6 @@ export default {
     }
   },
   computed: {
-    rect () {
-      return this.$refs.image.getBoundingClientRect()
-    },
     sortedPoints () {
       const sorted = [...this.points].sort((a, b) => a.hyp - b.hyp)
       const [firstPoint] = sorted
@@ -150,9 +147,17 @@ export default {
       return distance.toFixed(2)
     }
   },
+  watch: {
+    src () {
+      this.clearPoints()
+    }
+  },
   methods: {
     getHypotenuse ({ x, y }) {
       return Math.hypot(x, y).toFixed(2)
+    },
+    clearPoints () {
+      this.points = []
     },
     addPoint ({ x, y }) {
       const id = this.id++
@@ -163,7 +168,7 @@ export default {
       this.points = this.points.filter(point => point.id !== id)
     },
     handleImageClick (event) {
-      const { bottom, left } = this.rect
+      const { bottom, left } = this.$refs.image.getBoundingClientRect()
       const { x, y } = event
       this.addPoint({
         x: x - left,
@@ -181,6 +186,9 @@ export default {
 .Plot-data {
   text-align: left;
   min-width: 3em;
+}
+.Plot-image {
+  display: block;
 }
 .Plot-container {
   position: relative;
